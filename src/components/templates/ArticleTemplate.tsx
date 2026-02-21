@@ -5,7 +5,6 @@ import { PostData } from "@/lib/types";
 import { formatDate } from "@/lib/utils";
 import AdBanner from "@/components/ads/AdBanner";
 import TrendingSidebar from "@/components/news/TrendingSidebar";
-import DOMPurify from "isomorphic-dompurify";
 
 interface ArticleTemplateProps {
     post: PostData;
@@ -172,7 +171,7 @@ export default function ArticleTemplate({ post, trendingPosts }: ArticleTemplate
                             <span
                                 className="text-sm text-gray-600 dark:text-gray-400 italic"
                                 dangerouslySetInnerHTML={{
-                                    __html: DOMPurify.sanitize(post.image.caption),
+                                    __html: post.image.caption,
                                 }}
                             />
                         </div>
