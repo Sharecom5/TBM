@@ -20,6 +20,9 @@ const nextConfig = {
             }
         ],
     },
+    // Adding defensive tags for build stability
+    swcMinify: true,
+    reactStrictMode: true,
 };
 
 export default nextConfig;
