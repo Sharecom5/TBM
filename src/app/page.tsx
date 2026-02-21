@@ -77,10 +77,12 @@ export default async function HomePage() {
   };
 
   if (allPosts.length === 0) {
+    const debugUrl = process.env.WORDPRESS_API_URL || "NOT SET";
     return (
       <div className="max-w-7xl mx-auto px-4 py-20 text-center">
         <h2 className="text-2xl font-serif font-bold mb-4">Connecting to News Feed...</h2>
-        <p className="text-gray-500 mb-8">We are having trouble loading the latest stories. Please ensure the WordPress API is accessible.</p>
+        <p className="text-gray-500 mb-2">We are having trouble loading the latest stories.</p>
+        <p className="text-xs text-gray-400 mb-8">Debug Info (API Source): {debugUrl}</p>
         <div className="animate-pulse flex justify-center">
           <div className="h-2 w-24 bg-gray-200 rounded"></div>
         </div>

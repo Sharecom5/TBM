@@ -76,18 +76,25 @@ export async function fetchAPI(endpoint: string, params: Record<string, string> 
             next: { revalidate, tags: ['posts'] },
             headers: {
                 'Accept': 'application/json',
-            }
+                'User-Agent': 'TheBharatMirror-Nextjs/1.0',
+            },
+            // Add a 10s timeout to avoid hanging builds
+            signal: AbortSignal.timeout(10000),
         });
 
         if (!res.ok) {
-            console.error(`[WP API] Failed: ${url.toString()} - Status: ${res.status} ${res.statusText}`);
+            console.error(`[WP API] HTTP ERROR for ${url.toString()} - Status: ${res.status} ${res.statusText}`);
             return null;
         }
 
         const data = await res.json();
         return data;
     } catch (error: any) {
-        console.error(`[WP API] Fetch Exception for ${url.toString()}:`, error.message || error);
+        if (error.name === 'TimeoutError') {
+            console.error(`[WP API] Timeout for ${url.toString()}`);
+        } else {
+            console.error(`[WP API] Fetch Exception for ${url.toString()}:`, error.message || error);
+        }
         return null;
     }
 }
