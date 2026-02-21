@@ -76,6 +76,18 @@ export default async function HomePage() {
     ]
   };
 
+  if (allPosts.length === 0) {
+    return (
+      <div className="max-w-7xl mx-auto px-4 py-20 text-center">
+        <h2 className="text-2xl font-serif font-bold mb-4">Connecting to News Feed...</h2>
+        <p className="text-gray-500 mb-8">We are having trouble loading the latest stories. Please ensure the WordPress API is accessible.</p>
+        <div className="animate-pulse flex justify-center">
+          <div className="h-2 w-24 bg-gray-200 rounded"></div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <script

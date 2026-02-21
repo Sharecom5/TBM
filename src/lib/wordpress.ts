@@ -5,11 +5,12 @@ import DOMPurify from "isomorphic-dompurify";
 const API_URL = process.env.WORDPRESS_API_URL?.replace(/\/$/, "");
 
 if (!API_URL) {
-    console.warn("WORDPRESS_API_URL is not defined in environment variables");
+    console.warn("WORDPRESS_API_URL is not defined in environment variables. Content will not be fetched.");
 }
 
 // Helper to decode HTML entities in titles
 function decodeHtml(html: string) {
+    if (!html) return "";
     return html.replace(/&#(\d+);/g, (match, dec) => String.fromCharCode(dec))
         .replace(/&amp;/g, '&')
         .replace(/&lt;/g, '<')
@@ -55,23 +56,29 @@ function normalizePost(post: WPPost): PostData {
 
 export async function fetchAPI(endpoint: string, params: Record<string, string> = {}, revalidate = 60) {
     if (!API_URL) return null;
+
     const cleanEndpoint = endpoint.startsWith("/") ? endpoint : `/${endpoint}`;
     const url = new URL(`${API_URL}${cleanEndpoint}`);
     Object.entries(params).forEach(([key, value]) => url.searchParams.append(key, value));
 
     try {
+        console.log(`[WP API] Fetching: ${url.toString()}`);
         const res = await fetch(url.toString(), {
             next: { revalidate, tags: ['posts'] },
+            headers: {
+                'Accept': 'application/json',
+            }
         });
 
         if (!res.ok) {
-            console.error(`Failed to fetch API: ${url.toString()} - ${res.statusText}`);
+            console.error(`[WP API] Failed: ${url.toString()} - Status: ${res.status} ${res.statusText}`);
             return null;
         }
 
-        return await res.json();
+        const data = await res.json();
+        return data;
     } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error(`[WP API] Cache/Fetch Error for ${url.toString()}:`, error);
         return null;
     }
 }
@@ -88,7 +95,10 @@ export async function getAllPosts(page = 1, perPage = 10, category?: number): Pr
     }
 
     const posts = await fetchAPI("/wp/v2/posts", params);
-    if (!posts || !Array.isArray(posts)) return [];
+    if (!posts || !Array.isArray(posts)) {
+        console.warn(`[WP API] No posts found for page ${page}`);
+        return [];
+    }
 
     return posts.map(normalizePost);
 }
