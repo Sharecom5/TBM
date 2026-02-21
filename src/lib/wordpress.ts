@@ -99,11 +99,12 @@ export async function fetchAPI(endpoint: string, params: Record<string, string> 
         const data = await res.json();
         console.log(`[WP API] Successfully fetched ${Array.isArray(data) ? data.length : "object"} from ${url.toString()}`);
         return data;
-    } catch (error: any) {
-        if (error.name === 'TimeoutError') {
+    } catch (error: unknown) {
+        const err = error as any; // Cast for property access if needed, or better:
+        if (err.name === 'TimeoutError') {
             console.error(`[WP API] Timeout for ${url.toString()}`);
         } else {
-            console.error(`[WP API] Fetch Exception for ${url.toString()}:`, error.message || error);
+            console.error(`[WP API] Fetch Exception for ${url.toString()}:`, err.message || error);
         }
         return null;
     }
