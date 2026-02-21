@@ -77,8 +77,8 @@ export async function fetchAPI(endpoint: string, params: Record<string, string> 
 
         const data = await res.json();
         return data;
-    } catch (error) {
-        console.error(`[WP API] Cache/Fetch Error for ${url.toString()}:`, error);
+    } catch (error: any) {
+        console.error(`[WP API] Fetch Exception for ${url.toString()}:`, error.message || error);
         return null;
     }
 }
