@@ -14,7 +14,7 @@ export default function FeaturedGrid({ mainPost, sidePosts }: FeaturedGridProps)
     const mainSlug = mainPost.slug;
     const mainImageUrl = mainPost.image.url;
     const mainDate = formatDate(mainPost.date);
-    const mainCategory = mainPost.categories?.[0]?.name || "News";
+
 
     return (
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 mb-12 items-start">
@@ -48,7 +48,7 @@ export default function FeaturedGrid({ mainPost, sidePosts }: FeaturedGridProps)
             {/* 2. Secondary Stack */}
             <div className="lg:col-span-1 border-x border-gray-100 dark:border-gray-800 px-0 lg:px-6 flex flex-col gap-8">
                 {sidePosts.slice(0, 2).map((post) => {
-                    const cat = post.categories?.[0]?.name || "News";
+
                     return (
                         <div key={post.slug} className="group">
 

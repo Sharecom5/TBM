@@ -22,8 +22,7 @@ export default function NewsCard({ post, variant = "default", className }: NewsC
     const isSidebar = variant === "sidebar";
 
     // Determine category slug
-    const categorySlug = post.categories?.[0]?.slug || "news";
-    const categoryName = post.categories?.[0]?.name || "News";
+
 
     if (isTextOnly) {
         return (
