@@ -87,7 +87,15 @@ export async function fetchAPI(endpoint: string, params: Record<string, string> 
             return null;
         }
 
+        const contentType = res.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+            const body = await res.text();
+            console.error(`[WP API] Expected JSON but got ${contentType}. Body: ${body.slice(0, 500)}`);
+            return null;
+        }
+
         const data = await res.json();
+        console.log(`[WP API] Successfully fetched ${Array.isArray(data) ? data.length : "object"} from ${url.toString()}`);
         return data;
     } catch (error: any) {
         if (error.name === 'TimeoutError') {
