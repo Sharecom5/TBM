@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { PostData, WPCategory, WPPost } from "./types";
-import DOMPurify from "isomorphic-dompurify";
 
 const API_URL = process.env.WORDPRESS_API_URL?.replace(/\/$/, "");
 
@@ -18,6 +17,17 @@ function decodeHtml(html: string) {
         .replace(/&quot;/g, '"');
 }
 
+// Simple text sanitizer for excerpts (strips HTML and decodes entities)
+function sanitizeExcerpt(html: string) {
+    if (!html) return "";
+    // Remove all HTML tags
+    const stripped = html.replace(/<[^>]+>/g, "");
+    // Decode entities
+    const decoded = decodeHtml(stripped);
+    // Limit length
+    return decoded.slice(0, 160) + "...";
+}
+
 function normalizePost(post: WPPost): PostData {
     const embedded = post._embedded || {};
     const featuredMedia = embedded["wp:featuredmedia"]?.[0];
@@ -28,7 +38,7 @@ function normalizePost(post: WPPost): PostData {
         id: post.id,
         slug: post.slug,
         title: decodeHtml(post.title.rendered),
-        excerpt: DOMPurify.sanitize(post.excerpt.rendered.replace(/<[^>]+>/g, "").slice(0, 160) + "..."),
+        excerpt: sanitizeExcerpt(post.excerpt.rendered),
         content: post.content.rendered,
         date: post.date,
         author: {
@@ -62,7 +72,6 @@ export async function fetchAPI(endpoint: string, params: Record<string, string> 
     Object.entries(params).forEach(([key, value]) => url.searchParams.append(key, value));
 
     try {
-        console.log(`[WP API] Fetching: ${url.toString()}`);
         const res = await fetch(url.toString(), {
             next: { revalidate, tags: ['posts'] },
             headers: {
@@ -96,7 +105,6 @@ export async function getAllPosts(page = 1, perPage = 10, category?: number): Pr
 
     const posts = await fetchAPI("/wp/v2/posts", params);
     if (!posts || !Array.isArray(posts)) {
-        console.warn(`[WP API] No posts found for page ${page}`);
         return [];
     }
 
