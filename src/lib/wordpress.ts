@@ -2,10 +2,10 @@
 import { PostData, WPCategory, WPPost } from "./types";
 import DOMPurify from "isomorphic-dompurify";
 
-const API_URL = process.env.WORDPRESS_API_URL;
+const API_URL = process.env.WORDPRESS_API_URL?.replace(/\/$/, "");
 
 if (!API_URL) {
-    throw new Error("WORDPRESS_API_URL is not defined in environment variables");
+    console.warn("WORDPRESS_API_URL is not defined in environment variables");
 }
 
 // Helper to decode HTML entities in titles
@@ -55,7 +55,9 @@ function normalizePost(post: WPPost): PostData {
 }
 
 export async function fetchAPI(endpoint: string, params: Record<string, string> = {}, revalidate = 60) {
-    const url = new URL(`${API_URL}${endpoint}`);
+    if (!API_URL) return null;
+    const cleanEndpoint = endpoint.startsWith("/") ? endpoint : `/${endpoint}`;
+    const url = new URL(`${API_URL}${cleanEndpoint}`);
     Object.entries(params).forEach(([key, value]) => url.searchParams.append(key, value));
 
     try {
