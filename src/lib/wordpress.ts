@@ -18,6 +18,15 @@ function decodeHtml(html: string) {
 }
 
 // Simple text sanitizer for excerpts (strips HTML and decodes entities)
+// Helper to ensure image URLs use the current WP subdomain
+function normalizeImageUrl(url: string | undefined) {
+    if (!url) return "https://images.unsplash.com/photo-1529107386315-e1a2ed48a620";
+    if (url.includes('admin.thebharatmirror.com')) {
+        return url.replace('admin.thebharatmirror.com', 'wp.thebharatmirror.com');
+    }
+    return url;
+}
+
 function sanitizeExcerpt(html: string) {
     if (!html) return "";
     // Remove all HTML tags
@@ -47,7 +56,7 @@ function normalizePost(post: WPPost): PostData {
             avatar: authors?.avatar_urls?.["96"],
         },
         image: {
-            url: featuredMedia?.source_url || "https://images.unsplash.com/photo-1529107386315-e1a2ed48a620",
+            url: normalizeImageUrl(featuredMedia?.source_url),
             alt: featuredMedia?.alt_text || post.title.rendered,
             caption: featuredMedia?.caption?.rendered ? decodeHtml(featuredMedia.caption.rendered) : undefined,
         },
