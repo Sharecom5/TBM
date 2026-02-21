@@ -76,21 +76,23 @@ export async function fetchAPI(endpoint: string, params: Record<string, string> 
             next: { revalidate, tags: ['posts'] },
             headers: {
                 'Accept': 'application/json',
-                'User-Agent': 'TheBharatMirror-Nextjs/1.0',
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
             },
             // Add a 10s timeout to avoid hanging builds
             signal: AbortSignal.timeout(10000),
         });
 
         if (!res.ok) {
+            const errorBody = await res.text();
             console.error(`[WP API] HTTP ERROR for ${url.toString()} - Status: ${res.status} ${res.statusText}`);
+            console.error(`[WP API] Error Body Preview: ${errorBody.slice(0, 500)}`);
             return null;
         }
 
         const contentType = res.headers.get("content-type");
         if (!contentType || !contentType.includes("application/json")) {
             const body = await res.text();
-            console.error(`[WP API] Expected JSON but got ${contentType}. Body: ${body.slice(0, 500)}`);
+            console.error(`[WP API] Expected JSON but got ${contentType}. Body Preview: ${body.slice(0, 500)}`);
             return null;
         }
 
