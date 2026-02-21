@@ -17,13 +17,14 @@ export default async function ApiTestPage() {
                 </div>
             </div>
         );
-    } catch (err: any) {
-        console.error("[TEST] API Test Crash:", err);
+    } catch (err: unknown) {
+        const error = err as Error;
+        console.error("[TEST] API Test Crash:", error);
         return (
             <div className="p-10">
                 <h1 className="text-2xl font-bold mb-4">API Test Page</h1>
                 <p className="text-red-500 font-bold">💥 CRASHED</p>
-                <pre className="mt-4">{err.message}</pre>
+                <pre className="mt-4">{error.message || String(error)}</pre>
             </div>
         );
     }
