@@ -4,7 +4,7 @@ import FeaturedGrid from "@/components/news/FeaturedGrid";
 import CategoryBlock from "@/components/news/CategoryBlock";
 import TrendingSidebar from "@/components/news/TrendingSidebar";
 import NewsletterWidget from "@/components/news/NewsletterWidget";
-import AdBanner from "@/components/ads/AdBanner";
+
 import { Metadata } from "next";
 import { PostData } from "@/lib/types";
 
@@ -128,9 +128,7 @@ export default async function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
       />
 
-      <div className="mb-12">
-        <AdBanner size="leaderboard" position="top-banner" />
-      </div>
+
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
         {/* Main Content Area */}
@@ -138,9 +136,7 @@ export default async function HomePage() {
           {/* 1. Featured Grid */}
           <FeaturedGrid mainPost={mainFeatured} sidePosts={sideFeatured} />
 
-          <div className="my-12">
-            <AdBanner size="leaderboard" position="mid-content" />
-          </div>
+
 
           {/* 2. Category Blocks */}
           {indiaPosts.length > 0 && <CategoryBlock category="India" posts={indiaPosts} />}
@@ -152,14 +148,12 @@ export default async function HomePage() {
         {/* Sidebar */}
         <aside className="lg:col-span-1 space-y-12">
           <TrendingSidebar posts={trendingPosts} />
-          <AdBanner size="rectangle" position="sidebar" />
+
           <NewsletterWidget />
         </aside>
       </div>
 
-      <div className="mt-12">
-        <AdBanner size="leaderboard" position="footer-banner" />
-      </div>
+
     </div>
   );
 }

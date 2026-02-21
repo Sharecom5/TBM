@@ -28,9 +28,7 @@ export default function NewsCard({ post, variant = "default", className }: NewsC
     if (isTextOnly) {
         return (
             <div className={cn("group border-b border-gray-100 dark:border-gray-800 py-3 last:border-0 bg-white dark:bg-transparent", className)}>
-                <Link href={`/${categorySlug}`} className="text-[9px] font-bold text-brand-red uppercase tracking-wider mb-1 block hover:underline">
-                    {categoryName}
-                </Link>
+
                 <Link href={`/${postSlug}`}>
                     <h3 className="font-serif font-bold text-base text-gray-900 dark:text-gray-100 leading-tight group-hover:text-brand-red transition-colors">
                         {post.title}
@@ -81,9 +79,7 @@ export default function NewsCard({ post, variant = "default", className }: NewsC
                     </Link>
                 )}
                 <div className="flex-1 w-0">
-                    <Link href={`/${categorySlug}`} className="text-[10px] font-bold text-brand-red uppercase tracking-wider mb-1 block">
-                        {categoryName}
-                    </Link>
+
                     <Link href={`/${postSlug}`}>
                         <h3 className="font-serif font-bold text-lg md:text-xl text-gray-900 dark:text-gray-100 leading-tight mb-2 group-hover:text-brand-red transition-colors line-clamp-2">
                             {post.title}
@@ -115,22 +111,12 @@ export default function NewsCard({ post, variant = "default", className }: NewsC
                         sizes={isLead ? "(max-w-768px) 100vw, 800px" : "(max-w-768px) 100vw, 400px"}
                         className="object-cover transition-transform duration-500 group-hover:scale-105"
                     />
-                    {isLead && (
-                        <div className="absolute bottom-0 left-0 bg-gradient-to-t from-black/80 to-transparent w-full p-4 pt-12">
-                            <span className="bg-brand-red text-white text-[10px] font-bold px-2 py-0.5 uppercase tracking-wide inline-block mb-2">
-                                {categoryName}
-                            </span>
-                        </div>
-                    )}
+
                 </Link>
             )}
 
             <div className="flex flex-col flex-grow">
-                {!isLead && (
-                    <Link href={`/${categorySlug}`} className="text-[10px] font-bold text-brand-red uppercase tracking-wider mb-1 block hover:underline">
-                        {categoryName}
-                    </Link>
-                )}
+
 
                 <Link href={`/${postSlug}`}>
                     <h3 className={cn(
@@ -149,7 +135,7 @@ export default function NewsCard({ post, variant = "default", className }: NewsC
                 )}
 
                 <span className="text-[10px] text-gray-400 mt-auto font-sans font-bold uppercase tracking-wide">
-                    {post.author.name} • {formattedDate}
+                    {formattedDate}
                 </span>
             </div>
         </div>

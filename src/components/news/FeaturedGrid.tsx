@@ -29,12 +29,8 @@ export default function FeaturedGrid({ mainPost, sidePosts }: FeaturedGridProps)
                         sizes="(max-w-768px) 100vw, 800px"
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
-                    <div className="absolute top-4 left-4">
-                        <span className="bg-red-600 text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-tighter">
-                            {mainCategory}
-                        </span>
-                    </div>
                 </Link>
+
                 <Link href={`/${mainSlug}`}>
                     <h1 className="text-xl md:text-2xl lg:text-3xl font-extrabold text-gray-900 dark:text-white leading-[1.1] mb-3 hover:text-red-600 transition-colors tracking-tight">
                         {mainPost.title}
@@ -45,8 +41,6 @@ export default function FeaturedGrid({ mainPost, sidePosts }: FeaturedGridProps)
                     dangerouslySetInnerHTML={{ __html: mainPost.excerpt }}
                 />
                 <div className="flex items-center gap-3 text-[10px] font-bold text-gray-400 uppercase tracking-wide border-t border-gray-100 dark:border-gray-800 pt-3">
-                    <span className="text-red-600">By {mainPost.author.name}</span>
-                    <span className="w-1 h-1 bg-gray-300 rounded-full"></span>
                     <span>{mainDate}</span>
                 </div>
             </div>
@@ -57,9 +51,7 @@ export default function FeaturedGrid({ mainPost, sidePosts }: FeaturedGridProps)
                     const cat = post.categories?.[0]?.name || "News";
                     return (
                         <div key={post.slug} className="group">
-                            <span className="text-[10px] font-bold text-red-600 uppercase mb-2 block tracking-tight">
-                                {cat}
-                            </span>
+
                             <Link href={`/${post.slug}`}>
                                 <h3 className="text-base font-bold text-gray-900 dark:text-white leading-tight mb-2 group-hover:text-red-600 transition-colors tracking-tight">
                                     {post.title}
