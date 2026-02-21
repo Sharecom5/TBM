@@ -17,7 +17,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const posts = await getAllPosts(1, 100); // For now fetching 100 recent
     const postUrls = posts.map((post) => ({
         url: `${siteUrl}/${post.slug}`,
-        lastModified: new Date(post.date),
+        lastModified: new Date(post.modified),
         changeFrequency: 'weekly' as const,
         priority: 0.6,
     }));

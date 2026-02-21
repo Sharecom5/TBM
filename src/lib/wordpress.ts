@@ -41,6 +41,7 @@ function normalizePost(post: WPPost): PostData {
         excerpt: sanitizeExcerpt(post.excerpt.rendered),
         content: post.content.rendered,
         date: post.date,
+        modified: post.modified,
         author: {
             name: authors?.name || "Editorial Team",
             avatar: authors?.avatar_urls?.["96"],
@@ -58,6 +59,8 @@ function normalizePost(post: WPPost): PostData {
         seo: {
             title: post.rank_math_title ? decodeHtml(post.rank_math_title) : decodeHtml(post.title.rendered),
             description: post.rank_math_description ? decodeHtml(post.rank_math_description) : "",
+            canonical: post.rank_math_canonical_url || undefined,
+            focusKeyword: post.rank_math_focus_keyword || undefined,
             fullHead: post.yoast_head || undefined,
         },
         sticky: post.sticky,

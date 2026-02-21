@@ -1,8 +1,13 @@
 
 async function test() {
     try {
-        const url = 'https://admin.thebharatmirror.com/wp-json/wp/v2/posts?per_page=1';
-        const res = await fetch(url);
+        const url = 'https://wp.thebharatmirror.com/wp-json/wp/v2/posts?per_page=1';
+        const res = await fetch(url, {
+            headers: {
+                'Host': 'wp.thebharatmirror.com',
+                'User-Agent': 'Mozilla/5.0'
+            }
+        });
         console.log('--- DIAG RESULTS ---');
         console.log('URL:', url);
         console.log('STATUS:', res.status);

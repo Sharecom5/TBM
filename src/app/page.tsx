@@ -77,42 +77,13 @@ export default async function HomePage() {
   };
 
   if (allPosts.length === 0) {
-    const debugUrl = process.env.WORDPRESS_API_URL || "NOT SET";
     return (
-      <div className="max-w-7xl mx-auto px-4 py-20 text-center">
-        <h2 className="text-2xl font-serif font-bold mb-4">Connecting to News Feed...</h2>
-        <p className="text-gray-500 mb-2">We are having trouble loading the latest stories via the server.</p>
-        <p className="text-xs text-gray-400 mb-8">Debug Info (API Source): {debugUrl}</p>
-
-        <div className="mt-10 p-4 border border-dashed border-gray-300 rounded-lg max-w-md mx-auto">
-          <h3 className="text-sm font-bold mb-2">Browser Connectivity Test</h3>
-          <p className="text-xs text-gray-400 mb-4">Checking if your browser can reach the API directly...</p>
-          <div id="browser-test-status" className="text-xs font-mono bg-gray-50 p-2 rounded">Initializing...</div>
-          <script dangerouslySetInnerHTML={{
-            __html: `
-                (async () => {
-                    const statusEl = document.getElementById('browser-test-status');
-                    try {
-                        const res = await fetch('https://admin.thebharatmirror.com/wp-json/wp/v2/posts?per_page=1');
-                        if (res.ok) {
-                            const data = await res.json();
-                            statusEl.innerText = '✅ Browser can reach API. (Found ' + data.length + ' post)';
-                            statusEl.className += ' text-green-600';
-                        } else {
-                            statusEl.innerText = '❌ API returned error: ' + res.status;
-                            statusEl.className += ' text-red-600';
-                        }
-                    } catch (e) {
-                        statusEl.innerText = '❌ Browser failed to reach API: ' + e.message;
-                        statusEl.className += ' text-red-600';
-                    }
-                })()
-            `}} />
-        </div>
-
-        <div className="animate-pulse flex justify-center mt-8">
-          <div className="h-2 w-24 bg-gray-200 rounded"></div>
-        </div>
+      <div className="max-w-7xl mx-auto px-4 py-32 text-center">
+        <h2 className="text-3xl font-serif font-black mb-6">No stories found at the moment.</h2>
+        <p className="text-gray-600 dark:text-gray-400 mb-8 max-w-lg mx-auto leading-relaxed">
+          We are currently updating our systems to bring you the latest news.
+          Please check back in a few minutes.
+        </p>
       </div>
     );
   }

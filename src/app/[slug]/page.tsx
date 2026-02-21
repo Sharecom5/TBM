@@ -44,8 +44,9 @@ export async function generateMetadata(
             title: post.seo.title,
             description: post.seo.description || post.excerpt,
             alternates: {
-                canonical: `${siteUrl}/${slug}`,
+                canonical: post.seo.canonical || `${siteUrl}/${slug}`,
             },
+            keywords: post.seo.focusKeyword || undefined,
             openGraph: {
                 title: post.seo.title,
                 description: post.seo.description || post.excerpt,
@@ -53,7 +54,7 @@ export async function generateMetadata(
                 type: "article",
                 publishedTime: post.date,
                 authors: [post.author.name],
-                url: `${siteUrl}/${slug}`,
+                url: post.seo.canonical || `${siteUrl}/${slug}`,
             },
             twitter: {
                 card: "summary_large_image",

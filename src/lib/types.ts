@@ -2,6 +2,9 @@
 export interface WPPost {
     id: number;
     date: string;
+    date_gmt: string;
+    modified: string;
+    modified_gmt: string;
     slug: string;
     status: string;
     type: string;
@@ -62,6 +65,8 @@ export interface WPPost {
     };
     rank_math_title?: string;
     rank_math_description?: string;
+    rank_math_focus_keyword?: string;
+    rank_math_canonical_url?: string;
     yoast_head?: string;
 }
 
@@ -80,6 +85,7 @@ export interface PostData {
     excerpt: string;
     content: string;
     date: string;
+    modified: string;
     author: {
         name: string;
         avatar?: string;
@@ -97,6 +103,8 @@ export interface PostData {
     seo: {
         title: string;
         description: string;
+        canonical?: string;
+        focusKeyword?: string;
         fullHead?: string;
     };
     sticky?: boolean;

@@ -16,7 +16,7 @@ export default function ArticleTemplate({ post, trendingPosts }: ArticleTemplate
     const formattedDate = formatDate(post.date);
     const category = post.categories?.[0];
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://thebharatmirror.com";
-    const canonicalUrl = `${siteUrl}/${post.slug}`;
+    const canonicalUrl = post.seo.canonical || `${siteUrl}/${post.slug}`;
 
     // NewsArticle Schema
     const newsArticleSchema = {
@@ -26,7 +26,7 @@ export default function ArticleTemplate({ post, trendingPosts }: ArticleTemplate
         "description": post.seo.description || post.excerpt,
         "image": [imageUrl],
         "datePublished": post.date,
-        "dateModified": post.date,
+        "dateModified": post.modified,
         "author": [{
             "@type": "Person",
             "name": post.author.name || "Editorial Team",
