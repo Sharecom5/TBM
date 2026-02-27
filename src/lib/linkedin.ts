@@ -1,9 +1,10 @@
 
 export async function postToLinkedIn(title: string, excerpt: string, slug: string) {
     const accessToken = process.env.LINKEDIN_ACCESS_TOKEN;
-    const personUrn = process.env.LINKEDIN_PERSON_URN; // Format: urn:li:person:XXXXX
+    // Support both Personal (urn:li:person) and Organization (urn:li:organization)
+    const ownerUrn = process.env.LINKEDIN_ORGANIZATION_URN || process.env.LINKEDIN_PERSON_URN;
 
-    if (!accessToken || !personUrn) {
+    if (!accessToken || !ownerUrn) {
         console.warn('[LinkedIn] Credentials missing. Automatic posting disabled.');
         return { success: false, error: 'Credentials missing' };
     }
@@ -16,7 +17,7 @@ export async function postToLinkedIn(title: string, excerpt: string, slug: strin
     const shareText = `${hook}\n\n${excerpt}\n\nRead full story here:\n${postUrl}\n\n#IndiaNews #BusinessInsights #BreakingNews #TheBharatMirror`;
 
     const body = {
-        author: personUrn,
+        author: ownerUrn,
         lifecycleState: 'PUBLISHED',
         specificContent: {
             'com.linkedin.ugc.ShareContent': {
