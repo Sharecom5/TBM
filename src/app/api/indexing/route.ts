@@ -22,7 +22,24 @@ export async function POST(req: NextRequest) {
 
         console.log(`[Indexing Webhook] Received ${action} for ${postUrl}`);
 
-        const result = await notifyGoogleIndexing(postUrl, indexingType);
+        // 2. Notify Google (Parallel)
+        const googlePromise = notifyGoogleIndexing(postUrl, indexingType);
+
+        // 3. Post to LinkedIn if it's a new/updated post (not for deletes)
+        let linkedinResult = null;
+        if (action !== 'deleted') {
+            // We'll use the indexing route's ability to accept title/excerpt from the trigger if available
+            // or just use generic info for now.
+            const { post_title, post_excerpt } = body;
+            const { postToLinkedIn } = await import('@/lib/linkedin');
+            linkedinResult = await postToLinkedIn(
+                post_title || 'New Update',
+                post_excerpt || 'Read the latest from The Bharat Mirror.',
+                slug
+            );
+        }
+
+        const result = await googlePromise;
 
         if (result.success) {
             return NextResponse.json({
