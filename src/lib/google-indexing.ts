@@ -7,12 +7,11 @@ if (!clientEmail || !privateKey) {
     console.warn('Google Indexing API credentials missing. Automated indexing will be disabled.');
 }
 
-const auth = new google.auth.JWT(
-    clientEmail,
-    null,
-    privateKey,
-    ['https://www.googleapis.com/auth/indexing']
-);
+const auth = new google.auth.JWT({
+    email: clientEmail,
+    key: privateKey,
+    scopes: ['https://www.googleapis.com/auth/indexing']
+});
 
 const indexing = google.indexing('v3');
 
@@ -34,8 +33,17 @@ export async function notifyGoogleIndexing(url: string, type: IndexingType = 'UR
 
         console.log(`[Google Indexing] Notified ${type} for ${url}:`, response.data);
         return { success: true, data: response.data };
-    } catch (error: any) {
-        console.error(`[Google Indexing] Error notifying ${type} for ${url}:`, error.response?.data || error.message);
-        return { success: false, error: error.response?.data || error.message };
+    } catch (error: unknown) {
+        let errorMessage = 'Unknown error';
+        if (error instanceof Error) {
+            const responseData = (error as { response?: { data?: unknown } }).response?.data;
+            errorMessage = typeof responseData === 'string'
+                ? responseData
+                : responseData
+                    ? JSON.stringify(responseData)
+                    : error.message;
+        }
+        console.error(`[Google Indexing] Error notifying ${type} for ${url}:`, errorMessage);
+        return { success: false, error: errorMessage };
     }
 }

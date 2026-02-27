@@ -44,8 +44,9 @@ export async function GET() {
                 "Cache-Control": "public, s-maxage=600, stale-while-revalidate=1200",
             },
         });
-    } catch (error: any) {
-        console.error('[News Sitemap] Error:', error.message);
-        return new Response(`Error generating sitemap: ${error.message}`, { status: 500 });
+    } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+        console.error('[News Sitemap] Error:', errorMessage);
+        return new Response(`Error generating sitemap: ${errorMessage}`, { status: 500 });
     }
 }

@@ -26,13 +26,12 @@ export async function POST(req: NextRequest) {
         const googlePromise = notifyGoogleIndexing(postUrl, indexingType);
 
         // 3. Post to LinkedIn if it's a new/updated post (not for deletes)
-        let linkedinResult = null;
         if (action !== 'deleted') {
             // We'll use the indexing route's ability to accept title/excerpt from the trigger if available
             // or just use generic info for now.
             const { post_title, post_excerpt } = body;
             const { postToLinkedIn } = await import('@/lib/linkedin');
-            linkedinResult = await postToLinkedIn(
+            await postToLinkedIn(
                 post_title || 'New Update',
                 post_excerpt || 'Read the latest from The Bharat Mirror.',
                 slug
@@ -53,9 +52,10 @@ export async function POST(req: NextRequest) {
                 details: result.error
             }, { status: 500 });
         }
-    } catch (err: any) {
-        console.error('[Indexing Webhook] Crash:', err.message);
-        return NextResponse.json({ error: 'Internal Server Error', message: err.message }, { status: 500 });
+    } catch (err: unknown) {
+        const errorMessage = err instanceof Error ? err.message : 'Internal Server Error';
+        console.error('[Indexing Webhook] Crash:', errorMessage);
+        return NextResponse.json({ error: 'Internal Server Error', message: errorMessage }, { status: 500 });
     }
 }
 

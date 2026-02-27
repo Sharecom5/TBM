@@ -16,7 +16,6 @@ export default function SocialAdminPage() {
     const [selectedPost, setSelectedPost] = useState<Post | null>(null);
     const [loading, setLoading] = useState(true);
     const [secret, setSecret] = useState('');
-    const [isAuthorized, setIsAuthorized] = useState(false);
     const [copySuccess, setCopySuccess] = useState(false);
     const [indexingStatus, setIndexingStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
     const [indexingError, setIndexingError] = useState('');
@@ -27,7 +26,7 @@ export default function SocialAdminPage() {
                 // We'll use a public-ish endpoint or just fetch from our API
                 const res = await fetch('https://wp.thebharatmirror.com/wp-json/wp/v2/posts?per_page=10');
                 const data = await res.json();
-                const normalized = data.map((p: any) => ({
+                const normalized = data.map((p: { id: number; title: { rendered: string }; excerpt: { rendered: string }; slug: string; date: string }) => ({
                     id: p.id,
                     title: p.title.rendered.replace(/&amp;/g, '&').replace(/&#8217;/g, "'"),
                     excerpt: p.excerpt.rendered.replace(/<[^>]*>?/gm, '').substring(0, 160) + '...',
@@ -84,9 +83,9 @@ export default function SocialAdminPage() {
                 setIndexingStatus('error');
                 setIndexingError(data.error || data.details || 'Indexing failed');
             }
-        } catch (err: any) {
+        } catch (err: unknown) {
             setIndexingStatus('error');
-            setIndexingError(err.message || 'Network error');
+            setIndexingError(err instanceof Error ? err.message : 'Network error');
         }
     };
 
@@ -124,8 +123,8 @@ export default function SocialAdminPage() {
                                         key={post.id}
                                         onClick={() => setSelectedPost(post)}
                                         className={`w-full text-left p-3 rounded-xl transition-all border ${selectedPost?.id === post.id
-                                                ? 'bg-red-50 dark:bg-red-900/20 border-brand-red ring-1 ring-brand-red'
-                                                : 'bg-white dark:bg-gray-900 border-gray-100 dark:border-gray-700 hover:border-brand-red/50'
+                                            ? 'bg-red-50 dark:bg-red-900/20 border-brand-red ring-1 ring-brand-red'
+                                            : 'bg-white dark:bg-gray-900 border-gray-100 dark:border-gray-700 hover:border-brand-red/50'
                                             }`}
                                     >
                                         <p className="text-sm font-bold line-clamp-2 mb-1">{post.title}</p>
@@ -193,10 +192,10 @@ export default function SocialAdminPage() {
                                             onClick={handleIndexing}
                                             disabled={indexingStatus === 'loading' || !secret}
                                             className={`px-8 py-2.5 rounded-xl font-black uppercase text-xs tracking-widest transition-all ${indexingStatus === 'success'
-                                                    ? 'bg-green-600 text-white'
-                                                    : indexingStatus === 'error'
-                                                        ? 'bg-red-600 text-white'
-                                                        : 'bg-brand-red text-white hover:shadow-lg hover:scale-105 active:scale-95 disabled:opacity-50 disabled:grayscale'
+                                                ? 'bg-green-600 text-white'
+                                                : indexingStatus === 'error'
+                                                    ? 'bg-red-600 text-white'
+                                                    : 'bg-brand-red text-white hover:shadow-lg hover:scale-105 active:scale-95 disabled:opacity-50 disabled:grayscale'
                                                 }`}
                                         >
                                             {indexingStatus === 'loading' ? 'Processing...' :

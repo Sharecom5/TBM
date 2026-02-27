@@ -64,8 +64,9 @@ export async function postToLinkedIn(title: string, excerpt: string, slug: strin
             console.error('[LinkedIn] Error:', data);
             return { success: false, error: data };
         }
-    } catch (err: any) {
-        console.error('[LinkedIn] Fetch Error:', err.message);
-        return { success: false, error: err.message };
+    } catch (err: unknown) {
+        const errorMessage = err instanceof Error ? err.message : 'Unknown error';
+        console.error('[LinkedIn] Fetch Error:', errorMessage);
+        return { success: false, error: errorMessage };
     }
 }
