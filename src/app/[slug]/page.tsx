@@ -73,6 +73,11 @@ export async function generateMetadata(
 export default async function ResolverPage({ params }: PageProps) {
     const slug = params.slug;
 
+    // Safety check: Don't process XML or other system files as slugs
+    if (slug.endsWith('.xml') || slug.endsWith('.txt')) {
+        notFound();
+    }
+
     // 1. Check Category
     const category = await getCategoryBySlug(slug);
     if (category) {
