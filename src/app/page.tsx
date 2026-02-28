@@ -8,7 +8,7 @@ import NewsletterWidget from "@/components/news/NewsletterWidget";
 import { Metadata } from "next";
 import { PostData } from "@/lib/types";
 
-export const revalidate = 600; // Revalidate every 10 minutes
+export const revalidate = 60; // Revalidate every minute for freshness while debugging
 
 export const metadata: Metadata = {
   title: "The Bharat Mirror - India's Premier Digital News Platform",
@@ -19,9 +19,8 @@ export const metadata: Metadata = {
 };
 
 export default async function HomePage() {
-  // Fetch a smaller batch for the initial paint to improve LCP/TTFB
-  // 20 posts is plenty for the featured grid and top categories
-  const allPosts = await getAllPosts(1, 20);
+  // Fetch a larger batch to improve filtering coverage
+  const allPosts = await getAllPosts(1, 50);
 
   // Helper to get unique posts
   const shownIds = new Set<number>();

@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { PostData, WPCategory, WPPost } from "./types";
 
-const API_URL = process.env.WORDPRESS_API_URL?.replace(/\/$/, "");
+const API_URL = (process.env.WORDPRESS_API_URL || "https://admin.thebharatmirror.com/wp-json").replace(/\/$/, "");
 
-if (!API_URL) {
-    console.warn("WORDPRESS_API_URL is not defined in environment variables. Content will not be fetched.");
+if (!process.env.WORDPRESS_API_URL) {
+    console.warn("WORDPRESS_API_URL is not defined. Using fallback: " + API_URL);
 }
 
 // Helper to decode HTML entities in titles
@@ -18,11 +18,12 @@ function decodeHtml(html: string) {
 }
 
 // Simple text sanitizer for excerpts (strips HTML and decodes entities)
-// Helper to ensure image URLs use the current WP subdomain
+// Helper to ensure image URLs use a working subdomain
 function normalizeImageUrl(url: string | undefined) {
     if (!url) return "https://images.unsplash.com/photo-1529107386315-e1a2ed48a620";
-    if (url.includes('admin.thebharatmirror.com')) {
-        return url.replace('admin.thebharatmirror.com', 'wp.thebharatmirror.com');
+    // Ensure we use admin.thebharatmirror.com as wp. does not resolve
+    if (url.includes('wp.thebharatmirror.com')) {
+        return url.replace('wp.thebharatmirror.com', 'admin.thebharatmirror.com');
     }
     return url;
 }
