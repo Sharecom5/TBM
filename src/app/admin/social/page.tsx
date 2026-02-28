@@ -23,8 +23,8 @@ export default function SocialAdminPage() {
     useEffect(() => {
         const fetchPosts = async () => {
             try {
-                // We'll use a public-ish endpoint or just fetch from our API
-                const res = await fetch('https://wp.thebharatmirror.com/wp-json/wp/v2/posts?per_page=10');
+                // Corrected subdomain to admin.thebharatmirror.com
+                const res = await fetch('https://admin.thebharatmirror.com/wp-json/wp/v2/posts?per_page=10');
                 const data = await res.json();
                 const normalized = data.map((p: { id: number; title: { rendered: string }; excerpt: { rendered: string }; slug: string; date: string }) => ({
                     id: p.id,
