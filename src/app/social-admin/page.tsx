@@ -141,7 +141,11 @@ export default function SocialAdminPage() {
                                 {posts.map((post) => (
                                     <button
                                         key={post.id}
-                                        onClick={() => setSelectedPost(post)}
+                                        onClick={() => {
+                                            setSelectedPost(post);
+                                            setIndexingStatus('idle');
+                                            setIndexingError('');
+                                        }}
                                         className={`w-full text-left p-3 rounded-xl transition-all border ${selectedPost?.id === post.id
                                             ? 'bg-red-50 dark:bg-red-900/20 border-brand-red ring-1 ring-brand-red'
                                             : 'bg-white dark:bg-gray-900 border-gray-100 dark:border-gray-700 hover:border-brand-red/50'
