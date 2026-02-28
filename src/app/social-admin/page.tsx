@@ -34,7 +34,13 @@ export default function SocialAdminPage() {
                 const data = await res.json();
 
                 if (Array.isArray(data)) {
-                    const normalized = data.map((p: any) => ({
+                    const normalized = data.map((p: {
+                        id: number;
+                        title?: { rendered: string };
+                        excerpt?: { rendered: string };
+                        slug: string;
+                        date: string
+                    }) => ({
                         id: p.id,
                         title: (p.title?.rendered || 'No Title').replace(/&amp;/g, '&').replace(/&#8217;/g, "'"),
                         excerpt: (p.excerpt?.rendered || '').replace(/<[^>]*>?/gm, '').substring(0, 160) + '...',
