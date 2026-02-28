@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    trailingSlash: false,
     images: {
         remotePatterns: [
             {
@@ -21,7 +22,6 @@ const nextConfig = {
         ],
     },
     // Adding defensive tags for build stability
-    swcMinify: true,
     reactStrictMode: true,
 };
 
