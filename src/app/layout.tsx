@@ -25,6 +25,13 @@ export const metadata: Metadata = {
     template: "%s | The Bharat Mirror",
   },
   description: "Breaking news, analysis, and opinion from India and the world.",
+  icons: {
+    icon: [
+      { url: '/favicon.png', type: 'image/png' },
+    ],
+    apple: '/favicon.png',
+    shortcut: '/favicon.png',
+  },
 };
 
 export default function RootLayout({
