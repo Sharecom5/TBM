@@ -44,6 +44,8 @@ export default function RootLayout({
       )}>
         <ThemeProvider>
           <div className="flex flex-col min-h-screen">
+            {/* V6 DEPLOYMENT TAG */}
+            <script dangerouslySetInnerHTML={{ __html: `console.log('TBM V6 DEPLOYED')` }} />
             <Navbar />
             <main className="flex-grow">
               {children}
