@@ -23,20 +23,33 @@ export default function SocialAdminPage() {
     useEffect(() => {
         const fetchPosts = async () => {
             try {
-                // Use internal API proxy to avoid CORS/subdomain issues
-                const res = await fetch('/api/posts');
+                // Try internal API proxy first
+                let res = await fetch('/api/posts');
+
+                // Fallback to direct fetch if proxy fails (or returns non-ok)
+                if (!res.ok) {
+                    res = await fetch('https://admin.thebharatmirror.com/wp-json/wp/v2/posts?per_page=10');
+                }
+
                 const data = await res.json();
-                const normalized = data.map((p: { id: number; title: { rendered: string }; excerpt: { rendered: string }; slug: string; date: string }) => ({
-                    id: p.id,
-                    title: p.title.rendered.replace(/&amp;/g, '&').replace(/&#8217;/g, "'"),
-                    excerpt: p.excerpt.rendered.replace(/<[^>]*>?/gm, '').substring(0, 160) + '...',
-                    slug: p.slug,
-                    date: p.date
-                }));
-                setPosts(normalized);
-                if (normalized.length > 0) setSelectedPost(normalized[0]);
+
+                if (Array.isArray(data)) {
+                    const normalized = data.map((p: any) => ({
+                        id: p.id,
+                        title: (p.title?.rendered || 'No Title').replace(/&amp;/g, '&').replace(/&#8217;/g, "'"),
+                        excerpt: (p.excerpt?.rendered || '').replace(/<[^>]*>?/gm, '').substring(0, 160) + '...',
+                        slug: p.slug,
+                        date: p.date
+                    }));
+                    setPosts(normalized);
+                    if (normalized.length > 0) setSelectedPost(normalized[0]);
+                } else {
+                    console.error('Data is not an array:', data);
+                    setPosts([]);
+                }
             } catch (err) {
                 console.error('Failed to fetch posts', err);
+                setPosts([]);
             } finally {
                 setLoading(false);
             }

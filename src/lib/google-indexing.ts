@@ -22,11 +22,14 @@ export async function notifyGoogleIndexing(url: string, type: IndexingType = 'UR
         return { success: false, error: 'Credentials missing' };
     }
 
+    // Clean URL: Remove trailing slashes (Google Indexing is very sensitive to exact matches)
+    const cleanUrl = url.replace(/\/$/, '');
+
     try {
         const response = await indexing.urlNotifications.publish({
             auth,
             requestBody: {
-                url,
+                url: cleanUrl,
                 type,
             },
         });
