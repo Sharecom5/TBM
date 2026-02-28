@@ -34,6 +34,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <link rel="preconnect" href="https://admin.thebharatmirror.com" />
+      </head>
       <body className={cn(
         "min-h-screen bg-white dark:bg-[#050505] font-sans antialiased transition-colors duration-300",
         playfair.variable,

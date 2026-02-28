@@ -19,9 +19,9 @@ export const metadata: Metadata = {
 };
 
 export default async function HomePage() {
-  // Fetch a large batch of posts to distribute across sections
-  // Legacy fetched 50 posts. We'll do the same.
-  const allPosts = await getAllPosts(1, 50);
+  // Fetch a smaller batch for the initial paint to improve LCP/TTFB
+  // 20 posts is plenty for the featured grid and top categories
+  const allPosts = await getAllPosts(1, 20);
 
   // Helper to get unique posts
   const shownIds = new Set<number>();

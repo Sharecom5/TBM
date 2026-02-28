@@ -32,7 +32,7 @@ export default function FeaturedGrid({ mainPost, sidePosts }: FeaturedGridProps)
                 </Link>
 
                 <Link href={`/${mainSlug}`}>
-                    <h1 className="text-xl md:text-2xl lg:text-3xl font-extrabold text-gray-900 dark:text-white leading-[1.1] mb-3 hover:text-red-600 transition-colors tracking-tight">
+                    <h1 className="text-xl md:text-2xl lg:text-3xl font-serif font-black text-gray-900 dark:text-white leading-[1.1] mb-3 hover:text-brand-red transition-colors tracking-tight">
                         {mainPost.title}
                     </h1>
                 </Link>

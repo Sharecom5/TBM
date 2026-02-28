@@ -88,9 +88,9 @@ export default function Navbar() {
                 <div className="flex-1 flex justify-center">
                     <Link href="/">
                         <div className="text-center">
-                            <h1 className="font-serif text-4xl md:text-6xl font-black tracking-tight text-black dark:text-white">
+                            <div className="font-serif text-4xl md:text-6xl font-black tracking-tight text-black dark:text-white">
                                 The Bharat Mirror
-                            </h1>
+                            </div>
                             <p className="text-[10px] uppercase tracking-[0.3em] text-gray-500 mt-1 font-sans font-bold">
                                 India&apos;s Premier Digital News Platform
                             </p>
