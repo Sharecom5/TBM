@@ -23,14 +23,6 @@ const nextConfig = {
     // Adding defensive tags for build stability
     swcMinify: true,
     reactStrictMode: true,
-    async rewrites() {
-        return [
-            {
-                source: '/news-sitemap.xml',
-                destination: '/api/news-sitemap',
-            },
-        ];
-    },
 };
 
 export default nextConfig;
