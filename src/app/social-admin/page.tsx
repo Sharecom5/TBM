@@ -1,4 +1,5 @@
 'use client';
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { useState, useEffect } from 'react';
 import { Calendar, Copy, Check, Send, ExternalLink, ShieldCheck } from 'lucide-react';
