@@ -25,10 +25,9 @@ export async function POST(req: NextRequest) {
         // 2. Notify Google (Parallel)
         const googlePromise = notifyGoogleIndexing(postUrl, indexingType);
 
-        // 3. Post to LinkedIn if it's a new/updated post (not for deletes)
+        // 3. Automated LinkedIn posting disabled per user request
+        /*
         if (action !== 'deleted') {
-            // We'll use the indexing route's ability to accept title/excerpt from the trigger if available
-            // or just use generic info for now.
             const { post_title, post_excerpt } = body;
             const { postToLinkedIn } = await import('@/lib/linkedin');
             await postToLinkedIn(
@@ -37,6 +36,7 @@ export async function POST(req: NextRequest) {
                 slug
             );
         }
+        */
 
         const result = await googlePromise;
 

@@ -23,8 +23,8 @@ export default function SocialAdminPage() {
     useEffect(() => {
         const fetchPosts = async () => {
             try {
-                // Corrected subdomain to admin.thebharatmirror.com
-                const res = await fetch('https://admin.thebharatmirror.com/wp-json/wp/v2/posts?per_page=10');
+                // Use internal API proxy to avoid CORS/subdomain issues
+                const res = await fetch('/api/posts');
                 const data = await res.json();
                 const normalized = data.map((p: { id: number; title: { rendered: string }; excerpt: { rendered: string }; slug: string; date: string }) => ({
                     id: p.id,
