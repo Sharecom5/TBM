@@ -171,12 +171,26 @@ export async function getCategoryBySlug(slug: string): Promise<WPCategory | null
 }
 
 export async function getRecentPostsForSitemap(): Promise<PostData[]> {
-    const after = new Date(Date.now() - 48 * 60 * 60 * 1000).toISOString();
-    const posts = await fetchAPI("/wp/v2/posts", {
+    const fortyEightHoursAgo = new Date(Date.now() - 48 * 60 * 60 * 1000);
+    // WP API usually likes ISO without the Z/milliseconds sometimes, but ISO is generally okay.
+    // However, some versions are picky. We'll use the robust ISO format.
+    const after = fortyEightHoursAgo.toISOString();
+
+    let posts = await fetchAPI("/wp/v2/posts", {
         _embed: "true",
         per_page: "100",
         after: after
     }, 600);
+
+    // If no posts in 48 hours, fall back to the most recent 10 posts 
+    // to ensure the sitemap is never "blank" for the user/search consoles.
+    if (!posts || !Array.isArray(posts) || posts.length === 0) {
+        console.log("[Sitemap] No posts found in 48h, falling back to latest 10 posts.");
+        posts = await fetchAPI("/wp/v2/posts", {
+            _embed: "true",
+            per_page: "10",
+        }, 600);
+    }
 
     if (!posts || !Array.isArray(posts)) return [];
     return posts.map(normalizePost);
