@@ -197,7 +197,7 @@ export async function getRecentPostsForSitemap(): Promise<PostData[]> {
         _embed: "true",
         per_page: "100",
         after: after
-    }, 600);
+    }, 60);
 
     // If no posts in 48 hours, fall back to the most recent 10 posts 
     // to ensure the sitemap is never "blank" for the user/search consoles.
@@ -206,7 +206,7 @@ export async function getRecentPostsForSitemap(): Promise<PostData[]> {
         posts = await fetchAPI("/wp/v2/posts", {
             _embed: "true",
             per_page: "10",
-        }, 600);
+        }, 60);
     }
 
     if (!posts || !Array.isArray(posts)) return [];
