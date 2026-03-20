@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next';
 import { getAllPosts, getAllCategories } from '@/lib/wordpress';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://thebharatmirror.com';
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.thebharatmirror.com';
 
     // 1. Fetch Categories
     const categories = await getAllCategories();

@@ -6,7 +6,7 @@ export const revalidate = 60; // Revalidate every minute for Google News freshne
 export async function GET() {
     try {
         const posts = await getRecentPostsForSitemap();
-        const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://thebharatmirror.com';
+        const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.thebharatmirror.com';
 
         const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
