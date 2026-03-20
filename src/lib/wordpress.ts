@@ -142,6 +142,22 @@ export async function getAllPosts(page = 1, perPage = 10, category?: number): Pr
     return posts.map(normalizePost);
 }
 
+export async function searchPosts(query: string, page = 1, perPage = 20): Promise<PostData[]> {
+    const params: Record<string, string> = {
+        _embed: "true",
+        search: query,
+        per_page: perPage.toString(),
+        page: page.toString(),
+    };
+
+    const posts = await fetchAPI("/wp/v2/posts", params);
+    if (!posts || !Array.isArray(posts)) {
+        return [];
+    }
+
+    return posts.map(normalizePost);
+}
+
 export async function getPostBySlug(slug: string): Promise<PostData | null> {
     const posts = await fetchAPI("/wp/v2/posts", {
         slug,
