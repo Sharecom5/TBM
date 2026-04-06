@@ -15,7 +15,7 @@ export async function generateMetadata(
     { params }: CategoryPageProps
 ): Promise<Metadata> {
     const slug = params.slug;
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://thebharatmirror.com";
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.thebharatmirror.com";
 
     const category = await getCategoryBySlug(slug);
     if (category) {

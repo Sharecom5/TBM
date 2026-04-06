@@ -5,6 +5,9 @@ import { Metadata } from 'next';
 export const metadata: Metadata = {
     title: 'Advertise with Us | The Bharat Mirror',
     description: "Grow your brand with India's premier digital news platform. Discover our advertising and partnership opportunities.",
+    alternates: {
+        canonical: 'https://www.thebharatmirror.com/advertise',
+    },
 };
 
 const AdvertisePage = () => {

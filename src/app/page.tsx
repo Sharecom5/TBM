@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   title: "The Bharat Mirror - India's Premier Digital News Platform",
   description: "Stay updated with the latest news, breaking stories, and in-depth analysis from India and around the world on The Bharat Mirror.",
   alternates: {
-    canonical: "https://thebharatmirror.com",
+    canonical: "https://www.thebharatmirror.com",
   },
 };
 
@@ -45,7 +45,7 @@ export default async function HomePage() {
   // 3. Sidebar Posts (Trending - just latest remaining for now)
   const trendingPosts = getUniquePosts(5);
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://thebharatmirror.com";
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.thebharatmirror.com";
 
   const websiteSchema = {
     "@context": "https://schema.org",

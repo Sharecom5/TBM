@@ -6,6 +6,9 @@ import NewsletterWidget from '@/components/news/NewsletterWidget';
 export const metadata: Metadata = {
     title: 'Newsletters | The Bharat Mirror',
     description: "Stay ahead with Bharat Daily and our specialized news briefings. Subscribe to the information that matters to you.",
+    alternates: {
+        canonical: 'https://www.thebharatmirror.com/newsletters',
+    },
 };
 
 const NewslettersPage = () => {

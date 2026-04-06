@@ -28,6 +28,31 @@ function normalizeImageUrl(url: string | undefined) {
     return url;
 }
 
+function normalizeCanonicalUrl(url: string | undefined, slug: string) {
+    const primaryDomain = "https://www.thebharatmirror.com";
+    if (!url) return `${primaryDomain}/${slug}`;
+
+    // List of mirror domains to normalize
+    const mirrors = [
+        "renewablemirror.com",
+        "electricalmirror.com",
+        "constructionmirror.com",
+        "admin.thebharatmirror.com",
+        "thebharatmirror.com" // catch non-www too
+    ];
+
+    let processedUrl = url;
+    mirrors.forEach(mirror => {
+        if (processedUrl.includes(mirror)) {
+            // Replace matching domain with primary domain while preserving the path/slug
+            // If the mirror is the same domain but different subdomain, we just swap it
+            processedUrl = `${primaryDomain}/${slug}`;
+        }
+    });
+
+    return processedUrl;
+}
+
 function sanitizeExcerpt(html: string) {
     if (!html) return "";
     // Remove all HTML tags
@@ -69,7 +94,7 @@ function normalizePost(post: WPPost): PostData {
         seo: {
             title: post.rank_math_title ? decodeHtml(post.rank_math_title) : decodeHtml(post.title.rendered),
             description: post.rank_math_description ? decodeHtml(post.rank_math_description) : "",
-            canonical: post.rank_math_canonical_url || undefined,
+            canonical: normalizeCanonicalUrl(post.rank_math_canonical_url, post.slug),
             focusKeyword: post.rank_math_focus_keyword || undefined,
             fullHead: post.yoast_head || undefined,
         },
@@ -189,13 +214,13 @@ export async function getCategoryBySlug(slug: string): Promise<WPCategory | null
 
 export async function getRecentPostsForSitemap(): Promise<PostData[]> {
     const fortyEightHoursAgo = new Date(Date.now() - 48 * 60 * 60 * 1000);
-    // WP API usually likes ISO without the Z/milliseconds sometimes, but ISO is generally okay.
-    // However, some versions are picky. We'll use the robust ISO format.
+    // WP API Usually filters by 'date' (published), but synced posts might have older published dates
+    // though they are "new" to this site. We'll also fetch a bit more to be safe.
     const after = fortyEightHoursAgo.toISOString();
 
     let posts = await fetchAPI("/wp/v2/posts", {
         _embed: "true",
-        per_page: "100",
+        per_page: "500",
         after: after
     }, 60);
 

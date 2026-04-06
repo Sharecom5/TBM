@@ -5,6 +5,9 @@ import { Metadata } from 'next';
 export const metadata: Metadata = {
     title: 'About Us | The Bharat Mirror',
     description: "Learn about the mission, values, and story behind The Bharat Mirror, India's premier digital news platform.",
+    alternates: {
+        canonical: 'https://www.thebharatmirror.com/about',
+    },
 };
 
 const AboutPage = () => {

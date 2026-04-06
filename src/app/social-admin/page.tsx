@@ -65,7 +65,7 @@ export default function SocialAdminPage() {
     }, []);
 
     const generateLinkedInPost = (post: Post) => {
-        const siteUrl = 'https://thebharatmirror.com';
+        const siteUrl = 'https://www.thebharatmirror.com';
         const link = `${siteUrl}/${post.slug}?utm_source=linkedin&utm_medium=social&utm_campaign=auto_post`;
 
         // Dynamic hooks based on content keywords could be added later

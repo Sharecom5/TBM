@@ -5,6 +5,9 @@ import { Metadata } from 'next';
 export const metadata: Metadata = {
     title: 'Terms of Service | The Bharat Mirror',
     description: "Read the rules and conditions for using The Bharat Mirror's news platform and digital services.",
+    alternates: {
+        canonical: 'https://www.thebharatmirror.com/terms',
+    },
 };
 
 const TermsPage = () => {

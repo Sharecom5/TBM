@@ -5,6 +5,9 @@ import { Metadata } from 'next';
 export const metadata: Metadata = {
     title: 'Privacy Policy | The Bharat Mirror',
     description: "Our commitment to protecting your privacy and personal data at The Bharat Mirror.",
+    alternates: {
+        canonical: 'https://www.thebharatmirror.com/privacy',
+    },
 };
 
 const PrivacyPage = () => {

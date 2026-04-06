@@ -5,6 +5,9 @@ import { Metadata } from 'next';
 export const metadata: Metadata = {
     title: 'Disclaimer | The Bharat Mirror',
     description: "Legal disclaimer regarding the accuracy, completeness, and reliability of information on The Bharat Mirror.",
+    alternates: {
+        canonical: 'https://www.thebharatmirror.com/disclaimer',
+    },
 };
 
 const DisclaimerPage = () => {

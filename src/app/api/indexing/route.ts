@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: 'Slug is required' }, { status: 400 });
         }
 
-        const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://thebharatmirror.com';
+        const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.thebharatmirror.com';
         const postUrl = `${siteUrl.replace(/\/$/, '')}/${slug}`;
         const indexingType = action === 'deleted' ? 'URL_DELETED' : 'URL_UPDATED';
 
@@ -75,7 +75,7 @@ export async function GET(req: NextRequest) {
         return NextResponse.json({ error: 'Slug is required' }, { status: 400 });
     }
 
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://thebharatmirror.com';
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.thebharatmirror.com';
     const postUrl = `${siteUrl.replace(/\/$/, '')}/${slug}`;
     const indexingType = action === 'deleted' ? 'URL_DELETED' : 'URL_UPDATED';
 

@@ -1,5 +1,5 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://thebharatmirror.com/sitemap.xml
-Sitemap: https://thebharatmirror.com/news-sitemap.xml
+Sitemap: https://www.thebharatmirror.com/sitemap.xml
+Sitemap: https://www.thebharatmirror.com/news-sitemap.xml
