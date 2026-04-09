@@ -212,6 +212,38 @@ export async function getCategoryBySlug(slug: string): Promise<WPCategory | null
     return categories[0];
 }
 
+/**
+ * Fetches ALL published posts by paginating the WP REST API (100 per page).
+ * Used by the main sitemap so every article is included regardless of count.
+ */
+export async function getAllPostsForSitemap(): Promise<PostData[]> {
+    const allPosts: WPPost[] = [];
+    let page = 1;
+    const perPage = 100; // WP REST API hard max
+
+    while (true) {
+        const batch = await fetchAPI("/wp/v2/posts", {
+            _embed: "true",
+            per_page: perPage.toString(),
+            page: page.toString(),
+            orderby: "date",
+            order: "desc",
+        }, 300); // cache for 5 min per batch
+
+        if (!batch || !Array.isArray(batch) || batch.length === 0) break;
+
+        allPosts.push(...batch);
+        console.log(`[Sitemap] Fetched page ${page} — ${batch.length} posts (total so far: ${allPosts.length})`);
+
+        // If we got fewer than perPage, we've hit the last page
+        if (batch.length < perPage) break;
+
+        page++;
+    }
+
+    return allPosts.map(normalizePost);
+}
+
 export async function getRecentPostsForSitemap(): Promise<PostData[]> {
     const fortyEightHoursAgo = new Date(Date.now() - 48 * 60 * 60 * 1000);
     // WP API Usually filters by 'date' (published), but synced posts might have older published dates
