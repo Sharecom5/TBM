@@ -43,7 +43,6 @@ export default function FeaturedGrid({ mainPost, sidePosts }: FeaturedGridProps)
                     dangerouslySetInnerHTML={{ __html: mainPost.excerpt }}
                 />
                 <div className="flex items-center gap-3 text-[10px] font-black text-gray-400 uppercase tracking-widest border-t border-gray-100 dark:border-gray-800 pt-4">
-                    <span className="bg-brand-red text-white px-2 py-0.5 rounded-sm">Featured</span>
                     <span>{mainDate}</span>
                 </div>
             </div>

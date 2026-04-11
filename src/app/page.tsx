@@ -79,19 +79,6 @@ export default async function HomePage() {
           {indiaPosts.length > 0 && <CategoryBlock category="India" posts={indiaPosts} />}
           {businessPosts.length > 0 && <CategoryBlock category="Business" posts={businessPosts} />}
           
-          {/* 3. Mid-Page Break / Banner or specific section */}
-          <div className="my-16 bg-gray-900 rounded-3xl p-8 md:p-12 text-center relative overflow-hidden shadow-2xl">
-            <div className="relative z-10">
-              <h2 className="text-white text-3xl md:text-4xl font-black mb-4 uppercase tracking-tighter">Stay Informed. Stay Ahead.</h2>
-              <p className="text-gray-400 max-w-2xl mx-auto mb-8 text-lg font-medium">Unbiased reporting, deep-dive analysis, and real-time updates from across Bharat.</p>
-              <div className="flex justify-center gap-4">
-                 <div className="h-1 w-20 bg-brand-red rounded-full" />
-              </div>
-            </div>
-            <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-64 h-64 bg-brand-red/10 rounded-full blur-3xl" />
-            <div className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/2 w-64 h-64 bg-brand-red/10 rounded-full blur-3xl" />
-          </div>
-
           {sportPosts.length > 0 && <CategoryBlock category="Sport" posts={sportPosts} />}
           {worldPosts.length > 0 && <CategoryBlock category="World" posts={worldPosts} />}
 
