@@ -5,6 +5,7 @@ import {
     getPostBySlug,
     getAllPosts
 } from "@/lib/wordpress";
+import { truncateText } from "@/lib/utils";
 import CategoryTemplate from "@/components/templates/CategoryTemplate";
 import ArticleTemplate from "@/components/templates/ArticleTemplate";
 
@@ -23,15 +24,18 @@ export async function generateMetadata(
     // Try Category First
     const category = await getCategoryBySlug(slug);
     if (category) {
+        const title = truncateText(`${category.name} News - The Bharat Mirror`, 60);
+        const description = truncateText(`Latest ${category.name} news and updates from The Bharat Mirror.`, 160);
+        
         return {
-            title: `${category.name} News - The Bharat Mirror`,
-            description: `Latest ${category.name} news and updates from The Bharat Mirror.`,
+            title,
+            description,
             alternates: {
                 canonical: `${siteUrl}/${slug}`,
             },
             openGraph: {
-                title: `${category.name} News - The Bharat Mirror`,
-                description: `Latest ${category.name} news and updates.`,
+                title,
+                description,
                 url: `${siteUrl}/${slug}`,
             },
         };
@@ -40,16 +44,19 @@ export async function generateMetadata(
     // Try Post Second
     const post = await getPostBySlug(slug);
     if (post) {
+        const title = truncateText(post.seo.title || post.title, 60);
+        const description = truncateText(post.seo.description || post.excerpt, 160);
+        
         return {
-            title: post.seo.title,
-            description: post.seo.description || post.excerpt,
+            title,
+            description,
             alternates: {
                 canonical: post.seo.canonical || `${siteUrl}/${slug}`,
             },
             keywords: post.seo.focusKeyword || undefined,
             openGraph: {
-                title: post.seo.title,
-                description: post.seo.description || post.excerpt,
+                title,
+                description,
                 images: [post.image.url],
                 type: "article",
                 publishedTime: post.date,
@@ -58,8 +65,8 @@ export async function generateMetadata(
             },
             twitter: {
                 card: "summary_large_image",
-                title: post.seo.title,
-                description: post.seo.description || post.excerpt,
+                title,
+                description,
                 images: [post.image.url],
             },
         };
@@ -89,11 +96,30 @@ export default async function ResolverPage({ params }: PageProps) {
     // 2. Check Article
     const post = await getPostBySlug(slug);
     if (post) {
-        // Fetch trending/related posts
-        const trendingPosts = await getAllPosts(1, 5); // Just grab 5 recent
-        // Filter out current post from trending
-        const filteredTrending = trendingPosts.filter((p) => p.id !== post.id);
-        return <ArticleTemplate post={post} trendingPosts={filteredTrending} />;
+        // Fetch trending/recent posts for sidebar
+        const trendingPosts = await getAllPosts(1, 6); 
+        
+        // Fetch related posts from same category (Goal: Internal Linking)
+        const primaryCategory = post.categories?.[0];
+        let relatedPosts = [];
+        if (primaryCategory) {
+            relatedPosts = await getAllPosts(1, 5, primaryCategory.id);
+        } else {
+            // Fallback to latest
+            relatedPosts = trendingPosts;
+        }
+
+        // Filter out current post
+        const filteredTrending = trendingPosts.filter((p) => p.id !== post.id).slice(0, 5);
+        const filteredRelated = relatedPosts.filter((p) => p.id !== post.id).slice(0, 4);
+
+        return (
+            <ArticleTemplate 
+                post={post} 
+                trendingPosts={filteredTrending} 
+                relatedPosts={filteredRelated}
+            />
+        );
     }
 
     // 3. Not Found

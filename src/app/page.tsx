@@ -7,12 +7,13 @@ import NewsletterWidget from "@/components/news/NewsletterWidget";
 
 import { Metadata } from "next";
 import { PostData } from "@/lib/types";
+import { truncateText } from "@/lib/utils";
 
 export const revalidate = 60; // Revalidate every minute for freshness while debugging
 
 export const metadata: Metadata = {
-  title: "The Bharat Mirror - India's Premier Digital News Platform",
-  description: "Stay updated with the latest news, breaking stories, and in-depth analysis from India and around the world on The Bharat Mirror.",
+  title: truncateText("The Bharat Mirror - India's Premier Digital News Platform", 60),
+  description: truncateText("Stay updated with the latest news, breaking stories, and in-depth analysis from India and around the world on The Bharat Mirror.", 160),
   alternates: {
     canonical: "https://www.thebharatmirror.com",
   },
@@ -47,34 +48,6 @@ export default async function HomePage() {
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.thebharatmirror.com";
 
-  const websiteSchema = {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "url": siteUrl,
-    "name": "The Bharat Mirror",
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": {
-        "@type": "EntryPoint",
-        "urlTemplate": `${siteUrl}/search?q={search_term_string}`
-      },
-      "query-input": "required name=search_term_string"
-    }
-  };
-
-  const organizationSchema = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "The Bharat Mirror",
-    "url": siteUrl,
-    "logo": `${siteUrl}/logo.png`,
-    "sameAs": [
-      "https://facebook.com/thebharatmirror",
-      "https://twitter.com/thebharatmirror",
-      "https://instagram.com/thebharatmirror"
-    ]
-  };
-
   if (allPosts.length === 0) {
     return (
       <div className="max-w-7xl mx-auto px-4 py-32 text-center">
@@ -89,14 +62,6 @@ export default async function HomePage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
-      />
 
 
 

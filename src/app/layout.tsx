@@ -51,6 +51,40 @@ export default function RootLayout({
             gtag('config', 'G-EBSS055VZ0');
           `}
         </Script>
+
+        {/* Global Structured Data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "name": "The Bharat Mirror",
+              "url": "https://www.thebharatmirror.com",
+              "logo": "https://www.thebharatmirror.com/logo.png",
+              "sameAs": [
+                "https://twitter.com/thebharatmirror",
+                "https://facebook.com/thebharatmirror"
+              ]
+            })
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "name": "The Bharat Mirror",
+              "url": "https://www.thebharatmirror.com",
+              "potentialAction": {
+                "@type": "SearchAction",
+                "target": "https://www.thebharatmirror.com/search?q={search_term_string}",
+                "query-input": "required name=search_term_string"
+              }
+            })
+          }}
+        />
       </head>
       <body className={cn(
         "min-h-screen bg-white dark:bg-[#050505] font-sans antialiased transition-colors duration-300",

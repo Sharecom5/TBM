@@ -11,6 +11,8 @@ interface CategoryPageProps {
     searchParams: { [key: string]: string | string[] | undefined };
 }
 
+import { truncateText } from "@/lib/utils";
+
 export async function generateMetadata(
     { params }: CategoryPageProps
 ): Promise<Metadata> {
@@ -19,15 +21,18 @@ export async function generateMetadata(
 
     const category = await getCategoryBySlug(slug);
     if (category) {
+        const title = truncateText(`${category.name} News - The Bharat Mirror`, 60);
+        const description = truncateText(`Latest ${category.name} news and updates from The Bharat Mirror.`, 160);
+
         return {
-            title: `${category.name} News - The Bharat Mirror`,
-            description: `Latest ${category.name} news and updates from The Bharat Mirror.`,
+            title,
+            description,
             alternates: {
                 canonical: `${siteUrl}/category/${slug}`,
             },
             openGraph: {
-                title: `${category.name} News - The Bharat Mirror`,
-                description: `Latest ${category.name} news and updates.`,
+                title,
+                description,
                 url: `${siteUrl}/category/${slug}`,
             },
         };
