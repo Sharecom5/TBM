@@ -4,6 +4,7 @@ import FeaturedGrid from "@/components/news/FeaturedGrid";
 import CategoryBlock from "@/components/news/CategoryBlock";
 import TrendingSidebar from "@/components/news/TrendingSidebar";
 import NewsletterWidget from "@/components/news/NewsletterWidget";
+import NewsCard from "@/components/news/NewsCard";
 
 import { Metadata } from "next";
 import { PostData } from "@/lib/types";
@@ -48,8 +49,6 @@ export default async function HomePage() {
 
   // 4. Latest Stories (New section to show even more news)
   const latestStories = getUniquePosts(12);
-
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.thebharatmirror.com";
 
   if (allPosts.length === 0) {
     return (
