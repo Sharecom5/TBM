@@ -37,14 +37,17 @@ export default async function HomePage() {
   const mainFeatured = getUniquePosts(1, (p) => p.sticky === true)[0] || getUniquePosts(1)[0];
   const sideFeatured = getUniquePosts(4);
 
-  // 2. Category Sections
-  const indiaPosts = getUniquePosts(4, (p) => p.categories.some((c) => c.slug === "india"));
-  const businessPosts = getUniquePosts(4, (p) => p.categories.some((c) => c.slug === "business"));
-  const sportPosts = getUniquePosts(4, (p) => p.categories.some((c) => c.slug === "sport" || c.slug === "sports"));
-  const worldPosts = getUniquePosts(4, (p) => p.categories.some((c) => c.slug === "world"));
+  // 2. Category Sections (Increased from 4 to 8 for more news)
+  const indiaPosts = getUniquePosts(8, (p) => p.categories.some((c) => c.slug === "india"));
+  const businessPosts = getUniquePosts(8, (p) => p.categories.some((c) => c.slug === "business"));
+  const sportPosts = getUniquePosts(8, (p) => p.categories.some((c) => c.slug === "sport" || c.slug === "sports"));
+  const worldPosts = getUniquePosts(8, (p) => p.categories.some((c) => c.slug === "world"));
 
-  // 3. Sidebar Posts (Trending - just latest remaining for now)
+  // 3. Sidebar Posts (Trending)
   const trendingPosts = getUniquePosts(5);
+
+  // 4. Latest Stories (New section to show even more news)
+  const latestStories = getUniquePosts(12);
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.thebharatmirror.com";
 
@@ -76,15 +79,43 @@ export default async function HomePage() {
           {/* 2. Category Blocks */}
           {indiaPosts.length > 0 && <CategoryBlock category="India" posts={indiaPosts} />}
           {businessPosts.length > 0 && <CategoryBlock category="Business" posts={businessPosts} />}
+          
+          {/* 3. Mid-Page Break / Banner or specific section */}
+          <div className="my-16 bg-gray-900 rounded-3xl p-8 md:p-12 text-center relative overflow-hidden shadow-2xl">
+            <div className="relative z-10">
+              <h2 className="text-white text-3xl md:text-4xl font-black mb-4 uppercase tracking-tighter">Stay Informed. Stay Ahead.</h2>
+              <p className="text-gray-400 max-w-2xl mx-auto mb-8 text-lg font-medium">Unbiased reporting, deep-dive analysis, and real-time updates from across Bharat.</p>
+              <div className="flex justify-center gap-4">
+                 <div className="h-1 w-20 bg-brand-red rounded-full" />
+              </div>
+            </div>
+            <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-64 h-64 bg-brand-red/10 rounded-full blur-3xl" />
+            <div className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/2 w-64 h-64 bg-brand-red/10 rounded-full blur-3xl" />
+          </div>
+
           {sportPosts.length > 0 && <CategoryBlock category="Sport" posts={sportPosts} />}
           {worldPosts.length > 0 && <CategoryBlock category="World" posts={worldPosts} />}
+
+          {/* 4. Latest News Grid - Maximum Image coverage */}
+          <section className="mt-20">
+            <div className="flex items-center justify-between mb-10 border-b-4 border-gray-900 pb-4">
+                <h2 className="text-3xl font-black uppercase tracking-tighter text-gray-900 dark:text-white">Latest Stories</h2>
+                <div className="h-px flex-1 bg-gray-100 dark:bg-gray-800 mx-8 hidden md:block" />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                {latestStories.map((post) => (
+                    <NewsCard key={post.id} post={post} className="border-0 shadow-sm hover:shadow-xl transition-shadow rounded-xl p-4 bg-gray-50/50 dark:bg-white/5" />
+                ))}
+            </div>
+          </section>
         </div>
 
         {/* Sidebar */}
         <aside className="lg:col-span-1 space-y-12">
-          <TrendingSidebar posts={trendingPosts} />
-
-          <NewsletterWidget />
+          <div className="sticky top-24 space-y-12">
+            <TrendingSidebar posts={trendingPosts} />
+            <NewsletterWidget />
+          </div>
         </aside>
       </div>
 
