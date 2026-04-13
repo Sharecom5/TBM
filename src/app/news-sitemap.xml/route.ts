@@ -1,7 +1,7 @@
 import { getRecentPostsForSitemap } from "@/lib/wordpress";
 import { NextResponse } from "next/server";
 
-export const revalidate = 60; // Revalidate every minute for Google News freshness
+export const revalidate = 30; // Revalidate every 30 seconds for near-instant Google News freshness
 
 export async function GET() {
     try {
@@ -10,7 +10,8 @@ export async function GET() {
 
         const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   ${posts.map(post => {
             // XML Entity Escape for safety
             const title = post.title
@@ -31,6 +32,11 @@ export async function GET() {
       <news:publication_date>${new Date(post.date).toISOString()}</news:publication_date>
       <news:title>${title}</news:title>
     </news:news>
+    ${post.image?.url ? `
+    <image:image>
+      <image:loc>${post.image.url.replace(/&/g, '&amp;')}</image:loc>
+      <image:title>${title}</image:title>
+    </image:image>` : ''}
   </url>`;
         }).join('')}
 </urlset>`;
@@ -38,7 +44,7 @@ export async function GET() {
         return new NextResponse(xml, {
             headers: {
                 "Content-Type": "application/xml",
-                "Cache-Control": "public, s-maxage=60, stale-while-revalidate=59",
+                "Cache-Control": "public, s-maxage=30, stale-while-revalidate=29",
             },
         });
     } catch (error) {

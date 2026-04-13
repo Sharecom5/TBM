@@ -1,8 +1,8 @@
 import { MetadataRoute } from 'next';
 import { getAllPostsForSitemap, getAllCategories } from '@/lib/wordpress';
 
-// Revalidate the sitemap every 5 minutes so new WP posts appear automatically
-export const revalidate = 300;
+// Revalidate the sitemap every 60 seconds so new WP posts appear almost instantly
+export const revalidate = 60;
 export const maxDuration = 60; // Allow more time for fetching thousands of posts
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -24,6 +24,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         lastModified: new Date(post.modified),
         changeFrequency: 'weekly' as const,
         priority: 0.6,
+        images: post.image?.url ? [post.image.url] : [],
     }));
 
     // 3. Static Pages and Category Routes

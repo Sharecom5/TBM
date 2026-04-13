@@ -228,7 +228,7 @@ export async function getAllPostsForSitemap(): Promise<PostData[]> {
             page: page.toString(),
             orderby: "date",
             order: "desc",
-        }, 300); // cache for 5 min per batch
+        }, 60); // cache for 1 min per batch to match sitemap.ts
 
         if (!batch || !Array.isArray(batch) || batch.length === 0) break;
 
@@ -254,7 +254,7 @@ export async function getRecentPostsForSitemap(): Promise<PostData[]> {
         _embed: "true",
         per_page: "500",
         after: after
-    }, 60);
+    }, 30);
 
     // If no posts in 48 hours, fall back to the most recent 10 posts 
     // to ensure the sitemap is never "blank" for the user/search consoles.
@@ -262,8 +262,8 @@ export async function getRecentPostsForSitemap(): Promise<PostData[]> {
         console.log("[Sitemap] No posts found in 48h, falling back to latest 10 posts.");
         posts = await fetchAPI("/wp/v2/posts", {
             _embed: "true",
-            per_page: "10",
-        }, 60);
+            per_page: "20",
+        }, 30);
     }
 
     if (!posts || !Array.isArray(posts)) return [];
