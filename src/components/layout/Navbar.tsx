@@ -10,14 +10,9 @@ import MarketTicker from "@/components/common/MarketTicker";
 
 const NAV_ITEMS = [
     { label: "Home", path: "/" },
-    { label: "India", path: "/india" },
-    { label: "World", path: "/world" },
-    { label: "Opinion", path: "/opinion" },
-    { label: "Business", path: "/business" },
-    { label: "Sport", path: "/sport" },
-    { label: "Entertainment", path: "/entertainment" },
-    { label: "Sci-Tech", path: "/sci-tech" },
-    { label: "Life & Style", path: "/life-and-style" },
+    { label: "Calculators", path: "/calculators" },
+    { label: "About", path: "/about" },
+    { label: "Contact", path: "/contact" },
 ];
 
 export default function Navbar() {

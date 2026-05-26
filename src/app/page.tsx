@@ -1,111 +1,63 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { getAllPosts } from "@/lib/wordpress";
-import FeaturedGrid from "@/components/news/FeaturedGrid";
-import CategoryBlock from "@/components/news/CategoryBlock";
-import TrendingSidebar from "@/components/news/TrendingSidebar";
-import NewsletterWidget from "@/components/news/NewsletterWidget";
-import NewsCard from "@/components/news/NewsCard";
-
-import { Metadata } from "next";
-import { PostData } from "@/lib/types";
-import { truncateText } from "@/lib/utils";
-
-export const revalidate = 60; // Revalidate every minute for freshness while debugging
+import Link from 'next/link';
+import { ArrowRight, Zap, Calculator, Globe } from 'lucide-react';
+import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: truncateText("The Bharat Mirror - India's Premier Digital News Platform", 60),
-  description: truncateText("Stay updated with the latest news, breaking stories, and in-depth analysis from India and around the world on The Bharat Mirror.", 160),
-  alternates: {
-    canonical: "https://www.thebharatmirror.com",
-  },
+  title: 'The Bharat Mirror | Utility Hub',
+  description: 'Your comprehensive hub for powerful utilities, calculators, and tools.',
 };
 
-export default async function HomePage() {
-  // Fetch a larger batch to improve filtering coverage
-  const allPosts = await getAllPosts(1, 50);
-
-  // Helper to get unique posts
-  const shownIds = new Set<number>();
-  const getUniquePosts = (count: number, filterFn: (p: PostData) => boolean = () => true) => {
-    const filtered = allPosts.filter((p) => !shownIds.has(p.id) && filterFn(p));
-    const limited = filtered.slice(0, count);
-    limited.forEach((p) => shownIds.add(p.id));
-    return limited;
-  };
-
-  // 1. Featured Section
-  // Try to find a sticky/featured post first
-  const mainFeatured = getUniquePosts(1, (p) => p.sticky === true)[0] || getUniquePosts(1)[0];
-  const sideFeatured = getUniquePosts(4);
-
-  // 2. Category Sections (Increased from 4 to 8 for more news)
-  const indiaPosts = getUniquePosts(8, (p) => p.categories.some((c) => c.slug === "india"));
-  const businessPosts = getUniquePosts(8, (p) => p.categories.some((c) => c.slug === "business"));
-  const sportPosts = getUniquePosts(8, (p) => p.categories.some((c) => c.slug === "sport" || c.slug === "sports"));
-  const worldPosts = getUniquePosts(8, (p) => p.categories.some((c) => c.slug === "world"));
-
-  // 3. Sidebar Posts (Trending)
-  const trendingPosts = getUniquePosts(5);
-
-  // 4. Latest Stories (New section to show even more news)
-  const latestStories = getUniquePosts(12);
-
-  if (allPosts.length === 0) {
-    return (
-      <div className="max-w-7xl mx-auto px-4 py-32 text-center">
-        <h2 className="text-3xl font-serif font-black mb-6">No stories found at the moment.</h2>
-        <p className="text-gray-600 dark:text-gray-400 mb-8 max-w-lg mx-auto leading-relaxed">
-          We are currently updating our systems to bring you the latest news.
-          Please check back in a few minutes.
-        </p>
-      </div>
-    );
-  }
-
+export default function Home() {
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="min-h-[80vh] flex flex-col justify-center items-center text-center px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto py-16 sm:py-24">
+        <h1 className="text-5xl sm:text-6xl font-extrabold text-slate-900 tracking-tight mb-8">
+          Welcome to <span className="text-emerald-600">The Bharat Mirror</span>
+        </h1>
+        
+        <p className="text-xl sm:text-2xl text-slate-600 mb-12 max-w-2xl mx-auto leading-relaxed">
+          We have transitioned into a comprehensive utility hub. Discover our suite of powerful calculators designed to help you make smarter financial and technical decisions.
+        </p>
 
-
-
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
-        {/* Main Content Area */}
-        <div className="lg:col-span-3">
-          {/* 1. Featured Grid */}
-          <FeaturedGrid mainPost={mainFeatured} sidePosts={sideFeatured} />
-
-
-
-          {/* 2. Category Blocks */}
-          {indiaPosts.length > 0 && <CategoryBlock category="India" posts={indiaPosts} />}
-          {businessPosts.length > 0 && <CategoryBlock category="Business" posts={businessPosts} />}
-          
-          {sportPosts.length > 0 && <CategoryBlock category="Sport" posts={sportPosts} />}
-          {worldPosts.length > 0 && <CategoryBlock category="World" posts={worldPosts} />}
-
-          {/* 4. Latest News Grid - Maximum Image coverage */}
-          <section className="mt-20">
-            <div className="flex items-center justify-between mb-10 border-b-4 border-gray-900 pb-4">
-                <h2 className="text-3xl font-black uppercase tracking-tighter text-gray-900 dark:text-white">Latest Stories</h2>
-                <div className="h-px flex-1 bg-gray-100 dark:bg-gray-800 mx-8 hidden md:block" />
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                {latestStories.map((post) => (
-                    <NewsCard key={post.id} post={post} className="border-0 shadow-sm hover:shadow-xl transition-shadow rounded-xl p-4 bg-gray-50/50 dark:bg-white/5" />
-                ))}
-            </div>
-          </section>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+          <Link 
+            href="/calculators"
+            className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-full transition-all hover:scale-105 shadow-lg shadow-emerald-200"
+          >
+            Explore Calculators <ArrowRight className="ml-2 w-5 h-5" />
+          </Link>
+          <Link 
+            href="/calculators/pm-surya-ghar-subsidy-calculator"
+            className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-slate-700 bg-white border-2 border-slate-200 hover:border-emerald-500 hover:text-emerald-600 rounded-full transition-all"
+          >
+            PM Surya Ghar Calculator
+          </Link>
         </div>
 
-        {/* Sidebar */}
-        <aside className="lg:col-span-1 space-y-12">
-          <div className="sticky top-24 space-y-12">
-            <TrendingSidebar posts={trendingPosts} />
-            <NewsletterWidget />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left mt-16 border-t border-slate-100 pt-16">
+          <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+            <div className="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center mb-4">
+              <Zap className="w-6 h-6 text-emerald-600" />
+            </div>
+            <h3 className="text-xl font-bold text-slate-900 mb-2">Green Energy</h3>
+            <p className="text-slate-600">Calculate solar subsidies and ROI for renewable energy investments.</p>
           </div>
-        </aside>
+          <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+            <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4">
+              <Globe className="w-6 h-6 text-blue-600" />
+            </div>
+            <h3 className="text-xl font-bold text-slate-900 mb-2">Developer Tools</h3>
+            <p className="text-slate-600">Optimize your web presence with our SEO and development tools.</p>
+          </div>
+          <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+            <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-4">
+              <Calculator className="w-6 h-6 text-purple-600" />
+            </div>
+            <h3 className="text-xl font-bold text-slate-900 mb-2">Personal Finance</h3>
+            <p className="text-slate-600">Take control of your wealth with precision financial calculators.</p>
+          </div>
+        </div>
       </div>
-
-
     </div>
   );
 }

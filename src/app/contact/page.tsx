@@ -17,22 +17,11 @@ const ContactPage = () => {
         e.preventDefault();
         setLoading(true);
         try {
-            const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://admin.thebharatmirror.com/wp-json';
-            const response = await fetch(`${apiBase}/bm/v1/contact`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
-            });
-
-            if (response.ok) {
-                setSubmitted(true);
-                setFormData({ name: '', email: '', subject: '', message: '' });
-            } else {
-                console.error('Failed to send message');
-                // Even if it fails, we show a friendly message or just log it
-            }
+            // Simulated network request (Backend removed)
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            setSubmitted(true);
+            setFormData({ name: '', email: '', subject: '', message: '' });
         } catch (error) {
             console.error('Error sending message:', error);
         } finally {
