@@ -10,7 +10,7 @@ import MarketTicker from "@/components/common/MarketTicker";
 
 const NAV_ITEMS = [
     { label: "Home", path: "/" },
-    { label: "Calculators", path: "/calculators" },
+    { label: "Tools", path: "/tools" },
     { label: "About", path: "/about" },
     { label: "Contact", path: "/contact" },
 ];

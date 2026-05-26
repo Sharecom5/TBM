@@ -1,62 +1,46 @@
 import React from 'react';
-import { Shield, Target } from 'lucide-react';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-    title: 'About Us | The Bharat Mirror',
-    description: "Learn about the mission, values, and story behind The Bharat Mirror, India's premier digital news platform.",
-    alternates: {
-        canonical: 'https://www.thebharatmirror.com/about',
-    },
+  title: 'About Us | The Bharat Mirror',
+  description: 'Learn about The Bharat Mirror and our mission to provide accurate utility tools for Indian users.',
 };
 
-const AboutPage = () => {
-    return (
-        <div className="min-h-screen bg-white dark:bg-[#050505]">
-            <div className="bg-brand-red text-white py-24 px-4 sm:px-6 lg:px-8 text-center">
-                <h1 className="text-4xl md:text-7xl font-black mb-6 tracking-tighter">The Mirror of <span className="text-black">Bharat</span></h1>
-                <p className="text-red-100 max-w-3xl mx-auto text-xl font-medium leading-relaxed">
-                    Dedicated to delivering fast, accurate, and fearless journalism for the modern Indian citizen.
-                </p>
-            </div>
+export default function AboutPage() {
+  return (
+    <div className="max-w-4xl mx-auto px-4 py-16 sm:px-6 lg:px-8 font-sans text-slate-800">
+      <h1 className="text-4xl font-extrabold text-slate-900 mb-8">About Us</h1>
+      
+      <p className="text-lg mb-8 leading-relaxed">
+        Welcome to The Bharat Mirror, your trusted hub for fast, accurate, and free utility tools designed specifically for Indian users.
+      </p>
 
-            <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-                <div className="prose prose-xl dark:prose-invert max-w-none">
-                    <h2 className="text-3xl font-black text-gray-900 dark:text-white mb-8 tracking-tight border-b-4 border-brand-red w-fit pb-2">Our Mission</h2>
-                    <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed mb-12">
-                        The Bharat Mirror was founded on a simple yet powerful principle: to provide a reflection of our nation that is as clear as a mirror. In an era of misinformation and sensationalism, we stand committed to the core values of journalism—truth, integrity, and objectivity.
-                    </p>
+      <section className="mb-10">
+        <h2 className="text-2xl font-bold text-slate-900 mb-4 border-l-4 border-emerald-500 pl-3">Our Mission</h2>
+        <p className="mb-4 leading-relaxed">
+          Navigating government schemes, calculating complex taxes, or estimating everyday finances can be overwhelming. The Bharat Mirror was built to solve this problem. Our mission is to transform complex financial and technical guidelines—like the PM Surya Ghar Yojana or the latest Income Tax slabs—into simple, easy-to-use calculators.
+        </p>
+        <p className="leading-relaxed">
+          We believe that every Indian deserves access to transparent data to make informed decisions about their money, energy consumption, and business.
+        </p>
+      </section>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20">
-                        <div className="bg-gray-50 dark:bg-gray-900 p-8 rounded-3xl border border-gray-100 dark:border-gray-800">
-                            <Target className="w-10 h-10 text-brand-red mb-6" />
-                            <h3 className="text-2xl font-black text-gray-900 dark:text-white mb-4 tracking-tight">Accurate Reporting</h3>
-                            <p className="text-gray-600 dark:text-gray-400 text-base leading-relaxed">
-                                We don&apos;t just report news; we verify it. Our team of correspondents works around the clock to ensure every story is backed by facts. We adhere to strict fact-checking protocols.
-                            </p>
-                        </div>
-                        <div className="bg-gray-50 dark:bg-gray-900 p-8 rounded-3xl border border-gray-100 dark:border-gray-800">
-                            <Shield className="w-10 h-10 text-brand-red mb-6" />
-                            <h3 className="text-2xl font-black text-gray-900 dark:text-white mb-4 tracking-tight">Fearless Journalism</h3>
-                            <p className="text-gray-600 dark:text-gray-400 text-base leading-relaxed">
-                                We ask the hard questions. Our editorial team is independent and dedicated to holding power accountable, without fear or favor.
-                            </p>
-                        </div>
-                    </div>
+      <section className="mb-10">
+        <h2 className="text-2xl font-bold text-slate-900 mb-4 border-l-4 border-emerald-500 pl-3">What We Do</h2>
+        <p className="leading-relaxed">
+          Unlike traditional news sites, we focus entirely on interactive utilities. From solar subsidy estimators to financial calculators and web development tools, we build lightweight, mobile-friendly applications that give you the answers you need in seconds.
+        </p>
+      </section>
 
-                    <h2 className="text-3xl font-black text-gray-900 dark:text-white mb-8 tracking-tight">Editorial Standards</h2>
-                    <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed mb-8">
-                        The Bharat Mirror follows a strict code of ethics. We separate news from opinion, and we are transparent about our sources. Corrections are made promptly and visibly.
-                    </p>
-
-                    <h2 className="text-3xl font-black text-gray-900 dark:text-white mb-8 tracking-tight">Digital First</h2>
-                    <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
-                        As a headless digital news platform, we leverage the latest technology to bring you news as it happens. From live market updates to deep-dive investigative pieces, The Bharat Mirror is your window into the pulse of India.
-                    </p>
-                </div>
-            </div>
-        </div>
-    );
-};
-
-export default AboutPage;
+      <section className="mb-10">
+        <h2 className="text-2xl font-bold text-slate-900 mb-4 border-l-4 border-emerald-500 pl-3">Our Commitment to Accuracy and Privacy</h2>
+        <p className="mb-4 leading-relaxed">
+          We regularly update our tools to reflect the latest 2026 government guidelines and market rates. More importantly, we respect your privacy. The data you enter into our calculators (such as your electricity bill or salary) is processed directly in your browser. We do not store your personal calculator inputs on our servers.
+        </p>
+        <p className="font-semibold text-lg mt-8 text-emerald-700">
+          Thank you for trusting The Bharat Mirror.
+        </p>
+      </section>
+    </div>
+  );
+}

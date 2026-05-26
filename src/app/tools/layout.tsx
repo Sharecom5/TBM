@@ -1,6 +1,13 @@
 import React from 'react';
 import Link from 'next/link';
 
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'The Bharat Mirror - Interactive Tools & Utilities Hub',
+  description: 'Free, fast, and accurate interactive calculators for everyday decisions.',
+};
+
 export default function CalculatorsLayout({
   children,
 }: {
@@ -15,7 +22,7 @@ export default function CalculatorsLayout({
             The Bharat Mirror
           </Link>
           <nav className="flex items-center space-x-6">
-            <Link href="/calculators" className="text-sm font-medium text-emerald-600 hover:text-emerald-700 transition-colors">
+            <Link href="/tools" className="text-sm font-medium text-emerald-600 hover:text-emerald-700 transition-colors">
               Utility Hub
             </Link>
           </nav>

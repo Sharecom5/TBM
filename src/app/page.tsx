@@ -21,13 +21,13 @@ export default function Home() {
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
           <Link 
-            href="/calculators"
+            href="/tools"
             className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-full transition-all hover:scale-105 shadow-lg shadow-emerald-200"
           >
-            Explore Calculators <ArrowRight className="ml-2 w-5 h-5" />
+            Explore Tools <ArrowRight className="ml-2 w-5 h-5" />
           </Link>
           <Link 
-            href="/calculators/pm-surya-ghar-subsidy-calculator"
+            href="/tools/green-energy/pm-surya-ghar-calculator"
             className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-slate-700 bg-white border-2 border-slate-200 hover:border-emerald-500 hover:text-emerald-600 rounded-full transition-all"
           >
             PM Surya Ghar Calculator

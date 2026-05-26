@@ -46,7 +46,7 @@ export default function Footer() {
                     <div className="col-span-1 lg:col-span-1">
                         <Logo className="mb-6 text-white" />
                         <p className="text-gray-400 text-sm leading-relaxed mb-6 font-medium">
-                            The Bharat Mirror is India&apos;s premier digital news platform, delivering high-quality journalism, breaking news, and deep-dive analysis from across the nation and the world.
+                            The Bharat Mirror is your trusted hub for fast, accurate, and free utility tools designed specifically for Indian users.
                         </p>
                         <div className="flex gap-4">
                             <SocialLink
@@ -60,27 +60,15 @@ export default function Footer() {
                         <h3 className="font-black text-white uppercase tracking-tighter mb-6">Quick Links</h3>
                         <ul className="space-y-3">
                             <FooterLink href="/" label="Home" />
+                            <FooterLink href="/tools" label="Utility Hub" />
                             <FooterLink href="/about" label="About Us" />
-                            <FooterLink href="/advertise" label="Advertise" />
                             <FooterLink href="/contact" label="Contact" />
                             <FooterLink href="/privacy" label="Privacy Policy" />
                             <FooterLink href="/terms" label="Terms of Service" />
-                            <FooterLink href="/disclaimer" label="Disclaimer" />
                         </ul>
                     </div>
 
-                    <div>
-                        <h3 className="font-black text-white uppercase tracking-tighter mb-6">Categories</h3>
-                        <ul className="space-y-3">
-                            <FooterLink href="/category/india" label="India" />
-                            <FooterLink href="/category/world" label="World" />
-                            <FooterLink href="/category/opinion" label="Opinion" />
-                            <FooterLink href="/category/business" label="Business" />
-                            <FooterLink href="/category/sport" label="Sport" />
-                        </ul>
-                    </div>
-
-                    <div>
+                    <div className="lg:col-span-2">
                         <h3 className="font-black text-white uppercase tracking-tighter mb-6">Subscribe</h3>
                         {status === "success" ? (
                             <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-4 text-center animate-in fade-in">
